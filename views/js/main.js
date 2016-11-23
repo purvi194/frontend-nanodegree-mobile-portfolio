@@ -440,7 +440,6 @@ var resizePizzas = function(size) {
         }
 
         changeSliderLabel(size);
-};
 
         // Iterates through pizza elements on the page and changes their widths
         function changePizzaSizes(size) {
@@ -464,6 +463,7 @@ var resizePizzas = function(size) {
             for (var i = 0; i < randomPizzas.length; i++) {
                 randomPizzas[i].style.width = newwidth + "%";
             }
+        }
 
             changePizzaSizes(size);
 
@@ -512,11 +512,17 @@ var resizePizzas = function(size) {
 
             var items = document.getElementsByClassName('mover');
             var scrollDoc = (document.body.scrollTop / 1250);
-            for (var i = 0; i < items.length; i++) {
-                var phase = Math.sin(scrollDoc + (i % 5));
-                items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
+
+            var phase = [];
+
+            for (var i = 0; i < 5; i++) {
+                phase.push(Math.sin(scrollDoc + i) * 100);
             }
 
+            for (var i = 0, max = items.length; i < max; i++) {
+                items[i].style.left = items[i].basicLeft + phase[i%5] + 'px';
+            }
+            
             // User Timing API to the rescue again. Seriously, it's worth learning.
             // Super easy to create custom metrics.
             window.performance.mark("mark_end_frame");
